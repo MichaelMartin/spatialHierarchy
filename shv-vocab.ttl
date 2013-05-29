@@ -1,0 +1,173 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix shv: <http://ns.aksw.org/spatialHierarchy/> .
+@prefix shva: <http://ns.aksw.org/spatialHierarchy/areas/> .
+@prefix sioc: <http://rdfs.org/sioc/ns#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix vs: <http://www.w3.org/2003/06/sw-vocab-status/ns#> .
+@prefix wgs84: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://michael-martin.info/documents/spatialHierarchy/shv.png>
+    sioc:link <https://raw.github.com/MichaelMartin/spatialHierarchy/master/shv.png> ;
+    rdfs:label "illustration of the spatial hierarchy" .
+
+<http://ns.aksw.org/spatialHierarchy/>
+    dc:creator "Michael Martin" ;
+    a owl:Ontology ;
+    rdfs:comment "This vocabulary is used for structuring spatial areas hierarchically. Additionally it is possible to add a temporal dimension to the desired spatial hierarchy." ;
+    rdfs:label "Hierarchie ortsbezogener Ressourcen"@de, "Spatial Hierarchy"@en ;
+    owl:versionInfo "v0.3 2010/03/10 10:37:00 mdean" ;
+    foaf:depiction <http://michael-martin.info/documents/spatialHierarchy/shv.png> .
+
+shv:AdministrativeDistrict
+    a owl:Class ;
+    rdfs:comment "This Area can be used or country-specific concretised. (For instance as District or province)"@en ;
+    rdfs:label "Administrative District"@en, "Administrativer Bereich"@de ;
+    rdfs:subClassOf shv:SpatialArea .
+
+shv:City
+    a owl:Class ;
+    rdfs:label "City"@en, "Stad"@nl, "Stadt"@de ;
+    rdfs:subClassOf shv:SpatialArea .
+
+shv:Continent
+    a owl:Class ;
+    rdfs:label "Continent"@en, "Continent"@nl, "Kontinent"@de ;
+    rdfs:subClassOf shv:SpatialArea .
+
+shv:Country
+    a owl:Class ;
+    rdfs:label "Country"@en, "Land"@de, "Land"@nl ;
+    rdfs:subClassOf shv:SpatialArea .
+
+shv:Planet
+    a owl:Class ;
+    rdfs:label "Planet"@de, "Planet"@en ;
+    rdfs:subClassOf shv:SpatialArea .
+
+shv:SpatialArea
+    a owl:Class ;
+    rdfs:label "Räumliches Gebiet"@de, "Spatial Area"@en ;
+    rdfs:subClassOf wgs84:SpatialThing .
+
+shva:Africa
+    shv:isLocatedIn shva:Earth ;
+    a shv:Continent ;
+    rdfs:label "Africa"@en, "Afrika"@de .
+
+shva:Antarctica
+    shv:isLocatedIn shva:Earth ;
+    a shv:Continent ;
+    rdfs:label "Antarctica"@en, "Antarktis"@de .
+
+shva:Asia
+    shv:isLocatedIn shva:Earth ;
+    a shv:Continent ;
+    rdfs:label "Asia"@en, "Asien"@de .
+
+shva:Australia
+    shv:isLocatedIn shva:Earth ;
+    a shv:Continent ;
+    rdfs:label "Australia"@en, "Australien"@de .
+
+shva:Earth
+    shv:contains shva:Africa, shva:Asia, shva:Australia, shva:Europe, shva:NorthAmerica, shva:SouthAmerica ;
+    a shv:Planet ;
+    rdfs:label "Earth"@en, "Erde"@de .
+
+shva:Europe
+    shv:isLocatedIn shva:Earth ;
+    a shv:Continent ;
+    rdfs:label "Europa"@de, "Europe"@en .
+
+shva:NorthAmerica
+    shv:isLocatedIn shva:Earth ;
+    a shv:Continent ;
+    rdfs:label "Noord Amerika"@nl, "Nordamerika"@de, "North America"@en .
+
+shva:Oceania
+    shv:contains shva:Australia ;
+    shv:isLocatedIn shva:Earth ;
+    a shv:SpatialArea ;
+    rdfs:label "Oceania"@en, "Ozeanien"@de .
+
+shva:SouthAmerica
+    shv:isLocatedIn shva:Earth ;
+    a shv:Continent ;
+    rdfs:label "South America"@en, "Südamerika"@de .
+
+shv:contains
+    a owl:ObjectProperty ;
+    rdfs:comment "Object property to define which geospatial areas contained in the referencing geospatial area." ;
+    rdfs:domain shv:SpatialArea ;
+    rdfs:inverseOf shv:isLocatedIn ;
+    rdfs:label "contains"@en, "enthält"@de, "omvatten"@nl ;
+    rdfs:range shv:SpatialArea .
+
+shv:dissolutionDate
+    a owl:DatatypeProperty ;
+    rdfs:comment "To encode temporal dependencies of a spatial area, it is necessary to define its dissoltion date." ;
+    rdfs:domain shv:SpatialArea ;
+    rdfs:label "has dissolution date"@en, "hat Auflösungssdatum"@de ;
+    rdfs:range xsd:date .
+
+shv:formationDate
+    a owl:DatatypeProperty ;
+    rdfs:comment "To encode temporal dependencies of a spatial area, it is necessary to define its formation date." ;
+    rdfs:domain shv:SpatialArea ;
+    rdfs:label "has formation date"@en, "hat Gründungsdatum"@de ;
+    rdfs:range xsd:date .
+
+shv:hasCenter
+    a owl:ObjectProperty ;
+    rdfs:comment "This Relation aggregates a Spatial Area with it centerpoint-resource" ;
+    rdfs:domain shv:SpatialArea ;
+    rdfs:label "has Center"@en, "hat Zentrum"@de ;
+    rdfs:range wgs84:Point .
+
+shv:isLocatedIn
+    a owl:ObjectProperty ;
+    rdfs:comment "Object property to define in which geospatial area the referenced geospatial area is located in." ;
+    rdfs:domain shv:SpatialArea ;
+    rdfs:inverseOf shv:contains ;
+    rdfs:label "is located in"@en, "liegt in"@de ;
+    rdfs:range shv:SpatialArea .
+
+shv:priorTo
+    a owl:ObjectProperty ;
+    rdfs:comment "To encode temporal dependencies of a spatial area, it is necessary to aggregate its successor." ;
+    rdfs:domain shv:SpatialArea ;
+    rdfs:inverseOf shv:subsequentTo ;
+    rdfs:label "Vorgänger von"@de, "prior to"@en ;
+    rdfs:range shv:SpatialArea .
+
+shv:subsequentTo
+    a owl:ObjectProperty ;
+    rdfs:comment "To encode temporal dependencies of a spatial area, it is necessary to aggregate its predecessor." ;
+    rdfs:domain shv:SpatialArea ;
+    rdfs:inverseOf shv:priorTo ;
+    rdfs:label "Nachfolger von"@de, "subsequent to"@en ;
+    rdfs:range shv:SpatialArea .
+
+dc:creator
+    dct:description "Examples of a Creator include a person, an organization, or a service. Typically, the name of a Creator should be used to indicate the entity."@en-US ;
+    dct:hasVersion <http://dublincore.org/usage/terms/history/#creator-006> ;
+    dct:issued "1999-07-02" ;
+    dct:modified "2008-01-14" ;
+    a rdf:Property ;
+    rdfs:comment "An entity primarily responsible for making the resource."@en-US ;
+    rdfs:isDefinedBy <http://purl.org/dc/elements/1.1/> ;
+    rdfs:label "Creator"@en-US ;
+    skos:note "A second property with the same name as this property has been declared in the dcterms: namespace (http://purl.org/dc/terms/).  See the Introduction to the document \"DCMI Metadata Terms\" (http://dublincore.org/documents/dcmi-terms/) for an explanation."@en-US .
+
+wgs84:SpatialThing
+    a rdfs:Class ;
+    rdfs:comment """Anything with spatial extent, i.e. size, shape, or position.
+ e.g. people, places, bowling balls, as well as abstract areas like cubes.""" ;
+    rdfs:label "SpatialThing" .
+
